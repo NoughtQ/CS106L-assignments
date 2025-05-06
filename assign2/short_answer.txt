@@ -4,8 +4,14 @@ placeholders remaining in the file (and remove this comment too).
 Marriage Pact
 -------------
 
-Q1. It is your choice to use either an ordered or unordered set. In a few sentences, what are some of the tradeoffs between the two? Additionally, please give an example (that has not been shown in lecture) of a valid hash function that could be used to hash student names for an unordered set.
-A1. TODO
+Q1. It is your choice to use either an ordered or unordered set. In a few sentences, what are some of the tradeoffs between the two? Additionally, please give an example (that has not been shown in lecture) of a valid hash function that could be used to hash student names for an unordered set. 
+A1. 
+My choice is unordered_set. The search speed of unordered_set is faster because its underlying implementation is a hash table, with an average time complexity of O(1) for search operations, whereas the time complexity for set is O(log n); however, due to the hash table, unordered sets also occupy more space. 
+
+Valid hash function: sum(s[i] << (5*i)) % table_size. (s is the name string, and index i starts from 0)
 
 Q2. Note that we are saving pointers to names in the queue, not names themselves. Why might this be desired in this problem? What happens if the original set where the names are stored goes out of scope and the pointers are referenced?
-A2. TODO
+A2. 
+If names are stored directly, when the name string is particularly long or there are many names, the queue will occupy a lot of space. Using pointers relatively saves some space.
+
+Pointers referencing the original set where the names are stored goes out of scope will cause undefined behaviour, therefore the program cannot run successfully.
