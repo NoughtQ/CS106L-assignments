@@ -6,8 +6,8 @@
 
 - [x] assign0
 - [x] assign1
-- [ ] assign2
-- [ ] assign3
+- [x] assign2
+- [x] assign3
 - [ ] assign4
 - [ ] assign5
 - [ ] assign6
