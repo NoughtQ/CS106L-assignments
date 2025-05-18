@@ -10,7 +10,7 @@
 - [x] assign3
 - [x] assign4
 - [x] assign5
-- [ ] assign6
+- [x] assign6
 - [ ] assign7
 
 
