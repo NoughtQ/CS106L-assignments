@@ -4,14 +4,26 @@ placeholders remaining in the file (and remove this comment too).
 Unique Pointer
 --------------
 
+（直接用 Github Copilot（Gemini 2.5 pro）回答了，懒得写了(doge)）
+
 Q1. List one or two benefits of using RAII to manage memory instead manually calling `new` and `delete`.
-A1. TODO
+A1.
+1.  **自动内存管理和防止内存泄漏**：RAII 确保在对象生命周期结束时（例如，当对象离开作用域时），其析构函数会自动被调用，从而释放所管理的资源。这消除了忘记调用 `delete` 的风险，从而防止了内存泄漏。
+2.  **异常安全**：如果在对象的生命周期内发生异常，C++ 的栈展开机制会保证局部对象的析构函数被调用。这意味着即使在异常情况下，通过 RAII 管理的资源也能被正确释放，而手动调用 `delete` 可能会因为异常的抛出而被跳过。
 
 Q2. When implementing move semantics for a `unique_ptr`, for example in the move constructor `unique_ptr(unique_ptr&& other)`, it is essential that we set the underlying pointer of the `other` parameter to `nullptr` before exiting the function. Explain in your own words what problem would arise if we did not.
-A2. TODO
+A2. 如果在移动构造函数中没有将 `other` 的底层指针设置为 `nullptr`，那么移动操作完成后，新的 `unique_ptr` 对象和 `other` 对象将指向同一块内存区域。`unique_ptr` 的核心特性是独占所有权，即同一时间只能有一个 `unique_ptr` 指向某个特定的内存。当 `other` 对象离开其作用域并被销毁时，它的析构函数会释放它所指向的内存。随后，当新的 `unique_ptr` 对象也被销毁时，它的析构函数会尝试再次释放同一块内存。这将导致双重释放（double free）错误，这是一种未定义行为，通常会导致程序崩溃或数据损坏。将 `other` 的指针设置为 `nullptr` 可以确保它不再拥有该内存，其析构函数在被调用时不会释放该内存（因为 `delete nullptr` 是安全且无操作的）。
 
 Q3. This method of recursive deallocation through RAII works great for small lists, but may pose a problem for longer lists. Why? Hint: what is the limit for how "deep" a recursive function's call stack can grow?
-A3. TODO
+A3. 对于长列表，通过 RAII 进行递归释放（例如，链表节点包含一个指向下一个节点的 `unique_ptr`）可能会导致栈溢出（stack overflow）错误。当列表的头节点被销毁时，其析构函数会触发下一个节点的析构，这个过程会沿着列表递归下去。每一次析构函数的调用都会在调用栈上创建一个新的栈帧。如果列表非常长，递归调用的深度就会非常大，可能会超出系统为调用栈分配的内存限制。一旦超出这个限制，就会发生栈溢出，导致程序崩溃。
 
 Q4. What does `std::move` do in this context? Why is it safe to use `std::move` and move semantics here?
-A4. TODO
+A4. 在这种上下文中（通常指涉及 `unique_ptr` 或其他支持移动语义的对象的场景），`std::move` 本身并不执行任何移动操作。它是一个类型转换函数，将其参数无条件地转换为右值引用（具体来说是 xvalue）。这个转换向编译器表明，被转换的对象可以被“移走”，即它的资源可以被另一个对象接管（通常是通过移动构造函数或移动赋值运算符）。
+
+在这里使用 `std::move` 和移动语义是安全的，原因如下：
+1.  **`unique_ptr` 的设计**：`unique_ptr` 被设计为支持移动语义，它拥有移动构造函数和移动赋值运算符。这些操作会转移底层指针的所有权，并将源 `unique_ptr` 的指针置为 `nullptr`。
+2.  **明确的所有权转移**：移动语义确保了资源所有权的清晰转移。一旦资源从一个 `unique_ptr` 移动到另一个，源 `unique_ptr` 就不再拥有该资源，从而避免了双重释放等问题。
+3.  **被移动对象的有效状态**：在 `std::move` 之后，被移动的 `unique_ptr` 对象（源对象）会处于一个有效的、但通常是“空”的状态（其内部指针为 `nullptr`）。销毁这样一个空状态的 `unique_ptr` 是安全且无害的。
+4.  **效率**：对于像 `unique_ptr` 这样管理动态分配内存的类，移动语义允许高效地转移资源所有权，而无需进行昂贵的深拷贝（`unique_ptr` 本身也禁止拷贝以保证所有权的唯一性）。
+
+因此，`std::move` 使得能够安全地将 `unique_ptr` 的所有权从一个实例转移到另一个实例，这是 `unique_ptr` 实现其独占所有权语义的关键机制。
