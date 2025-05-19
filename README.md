@@ -1,6 +1,18 @@
 # CS106L Assignments 
 
-代码仓库克隆自[cs106l-assignments](https://github.com/cs106l/cs106l-assignments/tree/792f7c5b69479dbbd1002ba8fc1b55bc34b77187)（2025 Winter Version）。
+- 代码仓库克隆自[cs106l-assignments](https://github.com/cs106l/cs106l-assignments/tree/792f7c5b69479dbbd1002ba8fc1b55bc34b77187)（2025 Winter Version）。
+- C++ 相关的个人笔记（不严格遵循 CS106L 的授课顺序和内容，同时兼顾本校的 OOP 课程）：[note.noughtq.top/lang/cpp](https://note.noughtq.top/lang/cpp/)
+- 简要感受：
+    - 覆盖面很广，基本上讲清楚了 C++ 的核心特征，并且涉及到很多新标准中（尤指 C++11 后的标准）引入的新语法，比如 range、view、concept、可变模板等，着实让我大开眼界。
+    - 作业不难，主要起到巩固所学知识的作用。代码能力好的同学不会在这些作业上花费太多时间。
+    - 再来看本校的 OOP 课程：
+        - 讲的内容老掉牙（只讲到 C++11 标准之前的内容），并且专注于琐碎的语法细节；
+        - PPT 的内容缺乏严谨的逻辑（也就是说光看 PPT 无法搞明白老师要讲什么，对我这种上课一个字不听的同学很不友好）；
+        - 某些老师布置的作业内容混乱，令人迷惑。
+        - ...
+
+        这样的课我实在听不下去，所以我抽出一些时间来浅浅学了下大名鼎鼎的 CS106L。一句话感受就是：“不虚此行！”
+
 
 ## 进度
 
