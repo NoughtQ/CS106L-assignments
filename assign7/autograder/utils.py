@@ -55,7 +55,7 @@ def _install_requirement(package: str):
     import sys
 
     subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", package],
+        [sys.executable, "-m", "pip", "install", "--no-user", package],
         stdout=subprocess.DEVNULL,
     )
 
@@ -80,7 +80,7 @@ def _install_requirements():
 
     if check_pip_update():
         subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "-U", "pip"],
+            [sys.executable, "-m", "pip", "install", "-U", "--no-user", "pip"],
             stdout=subprocess.DEVNULL,
         )
 
